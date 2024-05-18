@@ -68,7 +68,16 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
 
     // Find the book by ISBN (replace with actual book data retrieval)
     const isbn = req.params.isbn;
-    let book = /* Your logic to find the book by ISBN */;
+    const isbnAsNumber = parseInt(isbn, 10); // Convert ISBN string to a number
+
+    // Check if ISBN is a valid number (optional)
+    if (isNaN(isbnAsNumber)) {
+        return res.status(400).json({ message: "Invalid ISBN format" });
+    }
+
+    // Find the book using the ISBN as the key
+    let book = books[isbnAsNumber];
+
 
     if (!book) {
       return res.status(404).json({ message: "Book not found" });
